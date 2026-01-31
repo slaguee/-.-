@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Aster Maker - Agence Vidéo Créative | Version Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aster Maker - L'agence qui transforme vos vidéos en succès">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 30%, #16213e 70%, #0f1419 100%);
+            color: #f0f4f8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 70px;
+            background: rgba(26, 11, 46, 0.3);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+                        0 0 80px rgba(212, 175, 55, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.scrolled {
+            padding: 18px 70px;
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(50px) saturate(220%);
+            -webkit-backdrop-filter: blur(50px) saturate(220%);
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6),
+                        0 0 100px rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 32px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #f0f4f8;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0), rgba(212, 175, 55, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .nav-home {
+            background: linear-gradient(135deg, #8a2be2 0%, #d4af37 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            box-shadow: 0 6px 25px rgba(138, 43, 226, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        }
+
+        .nav-home:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 10px 35px rgba(138, 43, 226, 0.6);
+            background: linear-gradient(135deg, #9333ea 0%, #f4e4c1 100%) !important;
+        }
+
+        .nav-home::before {
+            display: none !important;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 160px 20px 120px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(138, 43, 226, 0.08) 50%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #f4e4c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeUp 1s ease forwards;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #cbd5e1;
+            margin-bottom: 45px;
+            animation: fadeUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #8a2be2 0%, #d4af37 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.4);
+            animation: fadeUp 1s ease 0.4s forwards;
+            opacity: 0;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 45px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #9333ea 0%, #f4e4c1 100%);
+        }
+
+        section {
+            padding: 100px 70px;
+            position: relative;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 70px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+            padding: 45px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-12px) scale(1.03);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.25),
+                        0 0 80px rgba(212, 175, 55, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: rgba(240, 244, 248, 0.85);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .avis-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .avis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            margin-bottom: 70px;
+        }
+
+        .avis-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .avis-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 24px;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(212, 175, 55, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .avis-card:hover::after {
+            opacity: 1;
+        }
+
+        .avis-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.25),
+                        0 0 80px rgba(212, 175, 55, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .avis-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .avis-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8a2be2 0%, #d4af37 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 1.4rem;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .avis-info h4 {
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .stars {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .avis-text {
+            color: rgba(240, 244, 248, 0.85);
+            line-height: 1.8;
+            font-style: italic;
+            font-size: 1.05rem;
+            letter-spacing: 0.2px;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 24px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            color: #cbd5e1;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            color: #f0f4f8;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Système d'étoiles */
+        .star-rating {
+            display: flex;
+            gap: 8px;
+            font-size: 2rem;
+            margin-top: 10px;
+        }
+
+        .star-rating .star {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            filter: grayscale(100%);
+            opacity: 0.5;
+        }
+
+        .star-rating .star.active {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .star-rating .star:hover {
+            transform: scale(1.2);
+            filter: grayscale(0%);
+        }
+
+        .success-message {
+            margin-top: 25px;
+            padding: 18px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            border-radius: 14px;
+            color: #6ee7b7;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-15px);
+            transition: all 0.4s ease;
+            pointer-events: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        footer {
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            padding: 40px;
+            text-align: center;
+            color: #94a3b8;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        footer a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f4e4c1;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 30px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 60px 30px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .avis-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo">ASTER MAKER</div>
+        <nav>
+            <a href="#" class="nav-home">🏠 Accueil</a>
+            <a href="galerie.html">Nos exemples</a>
+            <a href="#services">Services</a>
+            <a href="prix.html">Tarifs</a>
+            <a href="#avis">Avis</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Bienvenue chez Aster Maker</h1>
+            <h2>L'agence qui transforme vos vidéos en succès !</h2>
+            <a class="btn" href="#services">Découvrir nos services</a>
+        </div>
+    </div>
+
+    <section id="services">
+    <h2>Nos Services</h2>
+    <div class="cards">
+
+        <div class="card">
+            <h3>🎨︎ Miniatures IRL</h3>
+            <p>Designs réalistes et captivants qui maximisent l'engagement et les conversions.</p>
+        </div>
+
+        <div class="card">
+            <h3>💻︎ Miniatures Gaming</h3>
+            <p>Fortnite • Valorant • GTA • etc. Visuels épiques pour dominer la compétition.</p>
+        </div>
+
+        <div class="card">
+            <h3>✨︎ Bannière & PFP</h3>
+            <p>Identité visuelle complète et professionnelle qui marque les esprits.</p>
+        </div>
+
+    </div>
+</section>
+
+
+    <section id="avis">
+        <h2>Ce qu'ils en pensent</h2>
+        <div class="avis-container">
+            <div class="avis-grid" id="avisGrid">
+                <!-- Les avis par défaut -->
+                <div class="avis-card">
+                    <div class="avis-header">
+                        <div class="avis-avatar">X</div>
+                        <div class="avis-info">
+                            <h4>XowLi</h4>
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="avis-text">"Le service est vraiment génial ! Tout s'est déroulé rapidement et sans aucune retouche à faire, preuve d'un travail soigné et efficace. J'ai beaucoup apprécié le professionnalisme et la disponibilité d'Aster et de son équipe. Je recommande vivement leurs services pour leur qualité et leur réactivité."</p>
+                </div>
+                <div class="avis-card">
+                    <div class="avis-header">
+                        <div class="avis-avatar">N</div>
+                        <div class="avis-info">
+                            <h4>Noryx</h4>
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="avis-text">"Miniature rendu en moins d'un jour, de très haute qualité, je recommande cette agence, leurs graphistes sont excellents et méritent d'être plus vus."</p>
+                </div>
+                <div class="avis-card">
+                    <div class="avis-header">
+                        <div class="avis-avatar">S</div>
+                        <div class="avis-info">
+                            <h4>Selectar</h4>
+                            <div class="stars">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="avis-text">"Le service est vraiment professionnel et tout s'est très bien passé pour ma part. Le seul petit point à améliorer serait la rapidité, mais j'avoue que je m'y suis pris au dernier moment. Malgré cela, tout a été fait avec sérieux. Merci à Aster pour son travail !"</p>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <h3 style="text-align: center; margin-bottom: 35px; background: linear-gradient(135deg, #d4af37, #f4e4c1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.8rem;">Laissez votre avis</h3>
+                <form id="avisForm">
+                    <div class="form-group">
+                        <label for="avis-nom">Votre nom</label>
+                        <input type="text" id="avis-nom" placeholder="Ex: Marie Dubois" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="avis-email">Votre email</label>
+                        <input type="email" id="avis-email" placeholder="votre@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Votre note</label>
+                        <div class="star-rating" id="starRating">
+                            <span class="star active" data-rating="1">⭐</span>
+                            <span class="star active" data-rating="2">⭐</span>
+                            <span class="star active" data-rating="3">⭐</span>
+                            <span class="star active" data-rating="4">⭐</span>
+                            <span class="star active" data-rating="5">⭐</span>
+                        </div>
+                        <input type="hidden" id="avis-rating" value="5">
+                    </div>
+                    <div class="form-group">
+                        <label for="avis-message">Votre avis</label>
+                        <textarea id="avis-message" rows="5" placeholder="Partagez votre expérience avec nous..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Envoyer mon avis</button>
+                    <div class="success-message" id="avisSuccess">
+                        ✅ Merci pour votre avis ! Il sera publié après validation.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contactez-nous</h2>
+        <div class="contact-form">
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="nom">Votre nom</label>
+                    <input type="text" id="nom" placeholder="Ex: Jean Martin" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Votre email</label>
+                    <input type="email" id="email" placeholder="votre@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Votre message</label>
+                    <textarea id="message" rows="6" placeholder="Décrivez votre projet..." required></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Envoyer le message</button>
+                <div class="success-message" id="contactSuccess">
+                    ✅ Message envoyé avec succès ! Nous vous répondrons rapidement !
+                </div>
+            </form>
+        </div>
+    </section>
+
+  <footer>
+        <p>© 2025 ASTER MAKER • Créé avec passion pour les créateurs</p>
+        <p>📧 Contact : contact@astermaker.com</p>
+    </footer>
+
+    <script>
+        // Scroll header effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Système d'étoiles
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('avis-rating');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = star.getAttribute('data-rating');
+                ratingInput.value = rating;
+                
+                // Mettre à jour l'affichage
+                stars.forEach(s => {
+                    if (s.getAttribute('data-rating') <= rating) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+
+            // Effet hover
+            star.addEventListener('mouseenter', () => {
+                const rating = star.getAttribute('data-rating');
+                stars.forEach(s => {
+                    if (s.getAttribute('data-rating') <= rating) {
+                        s.style.opacity = '1';
+                        s.style.filter = 'grayscale(0%)';
+                    }
+                });
+            });
+
+            star.addEventListener('mouseleave', () => {
+                stars.forEach(s => {
+                    const currentRating = ratingInput.value;
+                    if (s.getAttribute('data-rating') > currentRating) {
+                        s.style.opacity = '';
+                        s.style.filter = '';
+                    }
+                });
+            });
+        });
+
+        // Charger les avis approuvés
+        function loadApprovedReviews() {
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            const approvedReviews = reviews.filter(r => r.status === 'approved');
+            const grid = document.getElementById('avisGrid');
+            
+            // Ajouter les avis approuvés après les avis par défaut
+            approvedReviews.forEach(review => {
+                const stars = '⭐'.repeat(review.rating || 5);
+                const avisCard = document.createElement('div');
+                avisCard.className = 'avis-card';
+                avisCard.innerHTML = `
+                    <div class="avis-header">
+                        <div class="avis-avatar">${review.nom.charAt(0).toUpperCase()}</div>
+                        <div class="avis-info">
+                            <h4>${review.nom}</h4>
+                            <div class="stars">${stars}</div>
+                        </div>
+                    </div>
+                    <p class="avis-text">"${review.message}"</p>
+                `;
+                grid.appendChild(avisCard);
+            });
+        }
+
+        // Formulaire de contact
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nom = document.getElementById('nom').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            // Sauvegarder le message dans localStorage
+            const messages = JSON.parse(localStorage.getItem('aster_messages') || '[]');
+            messages.push({
+                nom: nom,
+                email: email,
+                message: message,
+                date: new Date().toLocaleString('fr-FR'),
+                read: false
+            });
+            localStorage.setItem('aster_messages', JSON.stringify(messages));
+            
+            console.log('Message sauvegardé:', { nom, email, message });
+            
+            document.getElementById('contactSuccess').classList.add('show');
+            
+            this.reset();
+            
+            setTimeout(() => {
+                document.getElementById('contactSuccess').classList.remove('show');
+            }, 5000);
+        });
+
+        // Formulaire d'avis
+        document.getElementById('avisForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nom = document.getElementById('avis-nom').value;
+            const email = document.getElementById('avis-email').value;
+            const avis = document.getElementById('avis-message').value;
+            const rating = document.getElementById('avis-rating').value;
+            
+            // Sauvegarder l'avis dans localStorage
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            reviews.push({
+                nom: nom,
+                email: email,
+                message: avis,
+                rating: parseInt(rating),
+                status: 'pending',
+                date: new Date().toLocaleString('fr-FR')
+            });
+            localStorage.setItem('aster_reviews', JSON.stringify(reviews));
+            
+            console.log('Avis sauvegardé:', { nom, email, avis, rating });
+            
+            document.getElementById('avisSuccess').classList.add('show');
+            this.reset();
+            
+            // Réinitialiser les étoiles à 5
+            stars.forEach(s => s.classList.add('active'));
+            document.getElementById('avis-rating').value = '5';
+            
+            setTimeout(() => {
+                document.getElementById('avisSuccess').classList.remove('show');
+            }, 5000);
+        });
+
+        // Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .avis-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Charger les avis au chargement de la page
+        window.addEventListener('DOMContentLoaded', loadApprovedReviews);
+    </script>
+</body>
+</html>

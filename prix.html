@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tarifs - Aster Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nos tarifs - Aster Maker">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 30%, #16213e 70%, #0f1419 100%);
+            color: #f0f4f8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 70px;
+            background: rgba(26, 11, 46, 0.3);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(212, 175, 55, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.scrolled {
+            padding: 18px 70px;
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(50px) saturate(220%);
+            -webkit-backdrop-filter: blur(50px) saturate(220%);
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.6), 0 0 100px rgba(212, 175, 55, 0.15);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+        }
+
+        nav a {
+            color: #f0f4f8;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0), rgba(212, 175, 55, 0.3));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+        }
+
+        nav a:hover {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
+        }
+
+        .nav-home {
+            background: linear-gradient(135deg, #8a2be2 0%, #d4af37 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            box-shadow: 0 6px 25px rgba(138, 43, 226, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        }
+
+        .nav-home:hover {
+            transform: translateY(-3px) !important;
+            box-shadow: 0 10px 35px rgba(138, 43, 226, 0.6);
+            background: linear-gradient(135deg, #9333ea 0%, #f4e4c1 100%) !important;
+        }
+
+        .nav-home::before {
+            display: none !important;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(138, 43, 226, 0.08) 50%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #f4e4c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tarifs-section {
+            padding: 60px 20px 120px;
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: rgba(26, 11, 46, 0.3);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            padding: 45px;
+            border-radius: 25px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.12), rgba(138, 43, 226, 0.12));
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 30px 80px rgba(212, 175, 55, 0.3),
+                        0 0 100px rgba(138, 43, 226, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: rgba(26, 11, 46, 0.4);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid rgba(212, 175, 55, 0.6);
+            transform: scale(1.05);
+            background: rgba(26, 11, 46, 0.4);
+        }
+
+        .pricing-card.popular::after {
+            content: '⭐ POPULAIRE';
+            position: absolute;
+            top: 25px;
+            right: -40px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            padding: 8px 50px;
+            font-size: 13px;
+            font-weight: 700;
+            transform: rotate(45deg);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .plan-name {
+            font-size: 1.9rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #ffffff, #d4af37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .plan-price span {
+            font-size: 1.3rem;
+            opacity: 0.8;
+        }
+
+        .plan-description {
+            color: #cbd5e1;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .features-list li {
+            padding: 14px 0;
+            color: #f0f4f8;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.05rem;
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: #d4af37;
+            font-weight: 800;
+            font-size: 1.4rem;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            padding: 18px 45px;
+            border-radius: 15px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 700;
+            transition: all 0.4s ease;
+            box-shadow: 0 12px 35px rgba(138, 43, 226, 0.4);
+            border: none;
+            cursor: pointer;
+            font-size: 17px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            margin-top: auto;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 18px 50px rgba(212, 175, 55, 0.6);
+            background: linear-gradient(135deg, #9333ea, #f4e4c1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+            color: #cbd5e1;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer p {
+            margin: 12px 0;
+            font-size: 1.05rem;
+        }
+
+        footer a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f4e4c1;
+        }
+
+        /* Bouton Admin */
+        .admin-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.5);
+            z-index: 999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.7);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 25px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .pricing-card:hover {
+                transform: translateY(-8px) scale(1.02);
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo">ASTER MAKER</div>
+        <nav>
+            <a href="index final.html" class="nav-home">🏠 Accueil</a>
+            <a href="galerie.html">Nos exemples</a>
+            <a href="index final.html#services">Services</a>
+            <a href="prix.html">Tarifs</a>
+            <a href="index final.html#avis">Avis</a>
+            <a href="index final.html#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Nos Tarifs</h1>
+            <p>Des formules adaptées à tous vos besoins, transparentes et sans surprise</p>
+        </div>
+    </div>
+
+    <section class="tarifs-section">
+        <div class="pricing-grid">
+
+            <!-- Plan Starter -->
+            <div class="pricing-card" data-plan="starter">
+                <h3 class="plan-name">🚀 Starter Pack</h3>
+                <div class="plan-price" id="price-starter">25€<span>/pack</span></div>
+                <p class="plan-description">
+                    Idéal pour débuter et tester des miniatures professionnelles
+                </p>
+                <ul class="features-list">
+                    <li>6 miniatures YouTube</li>
+                    <li>Design moderne et accrocheur</li>
+                    <li>Optimisation du taux de clic (CTR)</li>
+                    <li>2 révisions incluses par miniature</li>
+                    <li>Formats adaptés YouTube</li>
+                </ul>
+                <a href="https://discord.gg/ADVTdqecN2" target="_blank" class="btn">
+                    Choisir ce pack
+                </a>
+            </div>
+
+            <!-- Pack Full Design -->
+            <div class="pricing-card popular" data-plan="full">
+                <h3 class="plan-name">🔥 Pack Full Design</h3>
+                <div class="plan-price" id="price-full">45€<span>/pack</span></div>
+                <p class="plan-description">
+                    Branding complet pour créateurs ambitieux
+                </p>
+                <ul class="features-list">
+                    <li>Photo de profil (PDP)</li>
+                    <li>Bannière YouTube / Twitch</li>
+                    <li>2 miniatures YouTube</li>
+                    <li>Overlay vidéo personnalisé</li>
+                    <li>Overlay live (stream)</li>
+                    <li>3 révisions incluses</li>
+                </ul>
+                <a href="https://discord.gg/ADVTdqecN2" target="_blank" class="btn">
+                    Choisir ce pack
+                </a>
+            </div>
+
+            <!-- Plan Miniatures Pro -->
+            <div class="pricing-card" data-plan="custom">
+                <h3 class="plan-name">⚡ Miniatures personnalisable</h3>
+                <div class="plan-price" id="price-custom">Sur devis</div>
+                <p class="plan-description">
+                    Pour les créateurs qui publient régulièrement
+                </p>
+                <ul class="features-list">
+                    <li>Miniatures YouTube</li>
+                    <li>Style graphique cohérent</li>
+                    <li>Optimisation avancée</li>
+                    <li>Révisions flexibles</li>
+                    <li>Priorité sur les délais</li>
+                    <li>Suivi personnalisé</li>
+                </ul>
+                <a href="https://discord.gg/ADVTdqecN2" target="_blank" class="btn">
+                    Choisir ce pack
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 ASTER MAKER • Créé avec passion pour les créateurs</p>
+        <p>📧 Contact : <a href="mailto:aster.maker@outlook.fr">aster.maker@outlook.fr</a></p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Fonction pour charger et afficher les prix
+        function loadPrices() {
+            try {
+                const savedPrices = localStorage.getItem('aster_prices');
+                
+                if (savedPrices) {
+                    const prices = JSON.parse(savedPrices);
+                    
+                    // Mise à jour du prix Starter
+                    if (prices.starter) {
+                        const starterElement = document.getElementById('price-starter');
+                        starterElement.innerHTML = prices.starter + '€<span>/pack</span>';
+                    }
+                    
+                    // Mise à jour du prix Full
+                    if (prices.full) {
+                        const fullElement = document.getElementById('price-full');
+                        fullElement.innerHTML = prices.full + '€<span>/pack</span>';
+                    }
+                    
+                    // Mise à jour du prix Custom
+                    if (prices.custom) {
+                        const customElement = document.getElementById('price-custom');
+                        customElement.innerHTML = prices.custom;
+                    }
+                    
+                    console.log('✅ Prix chargés:', prices);
+                } else {
+                    console.log('ℹ️ Pas de prix personnalisés trouvés, utilisation des prix par défaut');
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors du chargement des prix:', error);
+            }
+        }
+
+        // Charger les prix au chargement de la page
+        document.addEventListener('DOMContentLoaded', loadPrices);
+
+        // Écouter les changements dans le localStorage (si modifié depuis une autre page)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'aster_prices') {
+                loadPrices();
+            }
+        });
+    </script>
+
+</body>
+</html>

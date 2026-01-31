@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Galerie - Aster Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez nos réalisations - Aster Maker">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 30%, #16213e 70%, #0f1419 100%);
+            color: #f0f4f8;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(138, 43, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(218, 165, 32, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 70px;
+            background: rgba(26, 11, 46, 0.3);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(212, 175, 55, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        header.scrolled {
+            padding: 18px 70px;
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(50px) saturate(220%);
+            -webkit-backdrop-filter: blur(50px) saturate(220%);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 28px;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #8a2be2 0%, #d4af37 100%);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 6px 25px rgba(138, 43, 226, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .back-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 35px rgba(138, 43, 226, 0.6);
+            background: linear-gradient(135deg, #9333ea 0%, #f4e4c1 100%);
+        }
+
+        /* Intro Section */
+        .gallery-intro {
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .gallery-intro h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #f4e4c1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .gallery-intro p {
+            font-size: 1.3rem;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Gallery Grid */
+        .gallery {
+            padding: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .image-box {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 16/9;
+            background: rgba(26, 11, 46, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .image-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(138, 43, 226, 0.15));
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .image-box:hover::before {
+            opacity: 1;
+        }
+
+        .image-box:hover {
+            transform: translateY(-12px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 25px 70px rgba(212, 175, 55, 0.3),
+                        0 0 100px rgba(138, 43, 226, 0.2);
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .image-box:hover img {
+            transform: scale(1.15);
+        }
+
+        /* Overlay d'information */
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            background: linear-gradient(to top, rgba(26, 11, 46, 0.95), transparent);
+            transform: translateY(100%);
+            transition: all 0.4s ease;
+            z-index: 2;
+        }
+
+        .image-box:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        .image-overlay h3 {
+            color: #d4af37;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .image-overlay p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 15px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9),
+                        0 0 100px rgba(212, 175, 55, 0.3);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Navigation Lightbox */
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            border: none;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .lightbox-nav:hover {
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(26, 11, 46, 0.5);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+            color: #cbd5e1;
+            margin-top: 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        footer a {
+            color: #d4af37;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #f4e4c1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 25px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .gallery-intro h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery {
+                padding: 30px 20px;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 25px;
+            }
+
+            .lightbox-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+            }
+
+            .lightbox-prev {
+                left: 15px;
+            }
+
+            .lightbox-next {
+                right: 15px;
+            }
+
+            .admin-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* Bouton Admin */
+        .admin-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 8px 30px rgba(138, 43, 226, 0.5);
+            z-index: 999;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.7);
+        }
+
+        /* Animation d'entrée */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .image-box:nth-child(1) { animation-delay: 0.1s; }
+        .image-box:nth-child(2) { animation-delay: 0.2s; }
+        .image-box:nth-child(3) { animation-delay: 0.3s; }
+        .image-box:nth-child(4) { animation-delay: 0.4s; }
+        .image-box:nth-child(5) { animation-delay: 0.5s; }
+        .image-box:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="logo">✨ NOS RÉALISATIONS</div>
+        <a href="index final.html" class="back-btn">← Retour à l'accueil</a>
+    </header>
+
+    <div class="gallery-intro">
+        <h1>Nos Exemples</h1>
+        <p>Découvrez quelques-unes de nos créations. Chaque projet est unique et conçu avec passion.</p>
+    </div>
+
+    <section class="gallery">
+
+        <!-- IMAGE 1 -->
+        <div class="image-box fade-in" data-index="0">
+            <img src="Banniere_KairoxItrox_Aster_Png.png" alt="Bannière Kairox et Itrox">
+            <div class="image-overlay">
+                <h3>Bannière Gaming</h3>
+                <p>Création visuelle pour kairox et Itroxs</p>
+            </div>
+        </div>
+
+        <!-- IMAGE 2 -->
+        <div class="image-box fade-in" data-index="1">
+            <img src="minia agence (2).jpg" alt="Miniature Agence">
+            <div class="image-overlay">
+                <h3>Miniature YouTube</h3>
+                <p>Création visuelle pour Selectar</p>
+            </div>
+        </div>
+
+        <!-- IMAGE 3 -->
+        <div class="image-box fade-in" data-index="2">
+            <img src="Xowly-p-che.png" alt="XowLi">
+            <div class="image-overlay">
+                <h3>Design Créatif</h3>
+                <p>Création visuelle pour XowLi</p>
+            </div>
+        </div>
+
+        <!-- IMAGE 4 -->
+        <div class="image-box fade-in" data-index="3">
+            <img src="minia_say_brainrot.jpg" alt="Miniature Brainrot">
+            <div class="image-overlay">
+                <h3>Miniature YouTube</h3>
+                <p>Création visuelle pour Say</p>
+            </div>
+        </div>
+
+        <!-- IMAGE 5 -->
+        <div class="image-box fade-in" data-index="4">
+            <img src="minia_agence_2_1.jpg" alt="DDN CORP">
+            <div class="image-overlay">
+                <h3>Illustration Personnalisée</h3>
+                <p>Création visuelle pour DDN</p>
+            </div>
+        </div>
+
+        <!-- IMAGE 6 -->
+        <div class="image-box fade-in" data-index="5">
+            <img src="sirosse_fr.png" alt="sirosse_fr">
+            <div class="image-overlay">
+                <h3>Illustration Personnalisée</h3>
+                <p>Création visuelle pour sirosse</p>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-nav lightbox-prev" id="prevBtn">‹</button>
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="closeBtn">×</button>
+            <img src="" alt="Image agrandie" id="lightboxImg">
+        </div>
+        <button class="lightbox-nav lightbox-next" id="nextBtn">›</button>
+    </div>
+
+    <footer>
+        <p>© 2025 ASTER MAKER • Créé avec passion pour les créateurs</p>
+        <p>📧 Contact : <a href="mailto:aster.maker@outlook.fr">aster.maker@outlook.fr</a></p>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Charger la galerie depuis localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGallery();
+        });
+
+        function loadGallery() {
+            const savedGallery = localStorage.getItem('aster_gallery');
+            
+            if (savedGallery) {
+                const gallery = JSON.parse(savedGallery);
+                const galleryContainer = document.querySelector('.gallery');
+                
+                // Vider la galerie actuelle
+                galleryContainer.innerHTML = '';
+                
+                // Ajouter les images
+                gallery.forEach((item, index) => {
+                    const imageBox = document.createElement('div');
+                    imageBox.className = 'image-box fade-in';
+                    imageBox.setAttribute('data-index', index);
+                    imageBox.style.animationDelay = `${index * 0.1}s`;
+                    
+                    imageBox.innerHTML = `
+                        <img src="${item.url}" alt="${item.title}">
+                        <div class="image-overlay">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    `;
+                    
+                    galleryContainer.appendChild(imageBox);
+                });
+                
+                // Réinitialiser la lightbox avec les nouvelles images
+                initLightbox();
+            }
+        }
+
+        function initLightbox() {
+            const imageBoxes = document.querySelectorAll('.image-box');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeBtn = document.getElementById('closeBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentIndex = 0;
+        const images = Array.from(imageBoxes).map(box => box.querySelector('img').src);
+
+        // Ouvrir la lightbox
+        imageBoxes.forEach((box, index) => {
+            box.addEventListener('click', () => {
+                currentIndex = index;
+                showImage(currentIndex);
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Fermer la lightbox
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Navigation
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        });
+
+        // Navigation au clavier
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+            if (e.key === 'ArrowRight') nextBtn.click();
+        });
+
+        function showImage(index) {
+            lightboxImg.style.opacity = '0';
+            setTimeout(() => {
+                lightboxImg.src = images[index];
+                lightboxImg.style.opacity = '1';
+            }, 150);
+        }
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(40px)';
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                }
+            });
+        }, observerOptions);
+
+        imageBoxes.forEach(box => {
+            observer.observe(box);
+        });
+
+        // Écouter les changements dans le localStorage
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'aster_gallery') {
+                loadGallery();
+            }
+        });
+    </script>
+
+</body>
+</html>

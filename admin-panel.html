@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Admin - Aster Maker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 30%, #16213e 70%, #0f1419 100%);
+            color: #f0f4f8;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .header p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation par onglets */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            background: rgba(26, 11, 46, 0.4);
+            padding: 10px;
+            border-radius: 15px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 15px 30px;
+            background: transparent;
+            color: #cbd5e1;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(26, 11, 46, 0.4);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card h2 {
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+
+        .form-group input[type="color"] {
+            width: 100%;
+            height: 60px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .form-group input[type="number"],
+        .form-group input[type="text"],
+        .form-group input[type="url"],
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f0f4f8;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .color-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .color-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .color-value {
+            font-family: 'Courier New', monospace;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(212, 175, 55, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.6);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            color: #86efac;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .price-preview {
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .price-preview h3 {
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .price-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-label {
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .price-value {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .gallery-item h4 {
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .gallery-item p {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .gallery-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .gallery-actions button {
+            flex: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 1.2rem;
+        }
+
+        /* Styles pour les avis en attente */
+        .review-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .review-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .review-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .review-info h4 {
+            color: #f0f4f8;
+            margin-bottom: 3px;
+        }
+
+        .review-info p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .review-status {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-approved {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .review-text {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .review-actions button {
+            flex: 1;
+        }
+
+        /* Styles pour les messages de contact */
+        .message-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .message-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .message-item.unread {
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .message-sender {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .message-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8a2be2, #d4af37);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .message-info h4 {
+            color: #f0f4f8;
+            margin-bottom: 3px;
+        }
+
+        .message-email {
+            color: #d4af37;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .message-email:hover {
+            color: #f4e4c1;
+        }
+
+        .message-date {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .message-badge {
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .message-text {
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid #d4af37;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-actions button {
+            flex: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d4af37, #f4e4c1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Panel Admin Aster Maker</h1>
+            <p>Gérez votre site en toute simplicité</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('avis')">📝 Avis clients</button>
+            <button class="tab-button" onclick="switchTab('messages')">💌 Messages de contact</button>
+            <button class="tab-button" onclick="switchTab('gallery')">🖼️ Galerie</button>
+            <button class="tab-button" onclick="switchTab('colors')">🎨 Couleurs</button>
+            <button class="tab-button" onclick="switchTab('prices')">💰 Prix</button>
+            <button class="tab-button" onclick="switchTab('settings')">⚙️ Paramètres</button>
+        </div>
+
+        <!-- ONGLET AVIS -->
+        <div id="avis" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalReviews">0</div>
+                    <div class="stat-label">Total avis</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="pendingReviews">0</div>
+                    <div class="stat-label">En attente</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="approvedReviews">0</div>
+                    <div class="stat-label">Approuvés</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📋 Gestion des avis</h2>
+                <div id="reviewsList"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET MESSAGES -->
+        <div id="messages" class="tab-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalMessages">0</div>
+                    <div class="stat-label">Total messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="unreadMessages">0</div>
+                    <div class="stat-label">Non lus</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>✉️ Messages de contact</h2>
+                <div id="messagesList"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET GALERIE -->
+        <div id="gallery" class="tab-content">
+            <div class="card">
+                <h2>🖼️ Ajouter une image</h2>
+                <form id="galleryForm">
+                    <div class="form-group">
+                        <label for="imageUrl">URL de l'image</label>
+                        <input type="url" id="imageUrl" placeholder="https://exemple.com/image.jpg" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageTitle">Titre de l'image</label>
+                        <input type="text" id="imageTitle" placeholder="Ex: Miniature Fortnite" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageDescription">Description</label>
+                        <textarea id="imageDescription" placeholder="Description de l'image..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">➕ Ajouter à la galerie</button>
+                    <div class="success-message" id="gallerySuccess">✅ Image ajoutée avec succès !</div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>📸 Images de la galerie</h2>
+                <div id="galleryItems" class="gallery-grid"></div>
+            </div>
+        </div>
+
+        <!-- ONGLET COULEURS -->
+        <div id="colors" class="tab-content">
+            <div class="admin-grid">
+                <div class="card">
+                    <h2>🎨 Personnaliser les couleurs</h2>
+                    
+                    <div class="form-group">
+                        <label for="color1">Couleur principale (Or)</label>
+                        <input type="color" id="color1" value="#d4af37">
+                        <div class="color-preview">
+                            <div class="color-box" id="preview1"></div>
+                            <span class="color-value" id="value1">#d4af37</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="color2">Couleur secondaire (Violet)</label>
+                        <input type="color" id="color2" value="#8a2be2">
+                        <div class="color-preview">
+                            <div class="color-box" id="preview2"></div>
+                            <span class="color-value" id="value2">#8a2be2</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="color3">Couleur d'accentuation</label>
+                        <input type="color" id="color3" value="#f4e4c1">
+                        <div class="color-preview">
+                            <div class="color-box" id="preview3"></div>
+                            <span class="color-value" id="value3">#f4e4c1</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="saveColors()">💾 Enregistrer les couleurs</button>
+                    <button class="btn btn-secondary" onclick="resetColors()">🔄 Réinitialiser</button>
+                    <div class="success-message" id="colorSuccess">✅ Couleurs enregistrées !</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONGLET PRIX -->
+        <div id="prices" class="tab-content">
+            <div class="admin-grid">
+                <div class="card">
+                    <h2>💰 Gérer les tarifs</h2>
+                    
+                    <div class="form-group">
+                        <label for="priceStarter">Pack Starter</label>
+                        <input type="text" id="priceStarter" value="25" placeholder="25">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priceFull">Pack Full</label>
+                        <input type="text" id="priceFull" value="45" placeholder="45">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="priceCustom">Pack Personnalisé</label>
+                        <input type="text" id="priceCustom" value="Sur devis" placeholder="Sur devis">
+                    </div>
+
+                    <button class="btn" onclick="savePrices()">💾 Enregistrer les prix</button>
+                    <button class="btn btn-secondary" onclick="resetPrices()">🔄 Réinitialiser</button>
+                    <div class="success-message" id="priceSuccess">✅ Prix enregistrés !</div>
+                </div>
+
+                <div class="card">
+                    <h2>👁️ Aperçu des prix</h2>
+                    <div class="price-preview">
+                        <div class="price-item">
+                            <span class="price-label">Pack Starter</span>
+                            <span class="price-value"><span id="displayStarter">25</span>€</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-label">Pack Full</span>
+                            <span class="price-value"><span id="displayFull">45</span>€</span>
+                        </div>
+                        <div class="price-item">
+                            <span class="price-label">Pack Personnalisé</span>
+                            <span class="price-value" id="displayCustom">Sur devis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ONGLET PARAMÈTRES -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <h2>⚙️ Paramètres généraux</h2>
+                <button class="btn" onclick="exportSettings()">📥 Exporter les paramètres</button>
+                <button class="btn btn-secondary" onclick="importSettings()">📤 Importer les paramètres</button>
+                <button class="btn btn-danger" onclick="clearAllData()">🗑️ Effacer toutes les données</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SYSTÈME D'ONGLETS
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Charger les données spécifiques à l'onglet
+            if (tabName === 'avis') {
+                loadReviews();
+            } else if (tabName === 'messages') {
+                loadMessages();
+            } else if (tabName === 'gallery') {
+                loadGalleryItems();
+            }
+        }
+
+        // GESTION DES AVIS
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            const reviewsList = document.getElementById('reviewsList');
+            
+            // Mettre à jour les statistiques
+            document.getElementById('totalReviews').textContent = reviews.length;
+            document.getElementById('pendingReviews').textContent = reviews.filter(r => r.status === 'pending').length;
+            document.getElementById('approvedReviews').textContent = reviews.filter(r => r.status === 'approved').length;
+
+            if (reviews.length === 0) {
+                reviewsList.innerHTML = `
+                    <div class="empty-state">
+                        <p>📭 Aucun avis pour le moment</p>
+                    </div>
+                `;
+                return;
+            }
+
+            reviewsList.innerHTML = reviews.map((review, index) => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="review-author">
+                            <div class="review-avatar">${review.nom.charAt(0).toUpperCase()}</div>
+                            <div class="review-info">
+                                <h4>${review.nom}</h4>
+                                <p>${review.email}</p>
+                                <div class="stars" style="margin-top: 5px;">${'⭐'.repeat(review.rating || 5)}</div>
+                            </div>
+                        </div>
+                        <span class="review-status ${review.status === 'pending' ? 'status-pending' : 'status-approved'}">
+                            ${review.status === 'pending' ? '⏳ En attente' : '✅ Approuvé'}
+                        </span>
+                    </div>
+                    <div class="review-text">${review.message}</div>
+                    <div class="review-actions">
+                        ${review.status === 'pending' ? 
+                            `<button class="btn btn-success btn-small" onclick="approveReview(${index})">✅ Approuver</button>` : 
+                            `<button class="btn btn-secondary btn-small" onclick="unapproveReview(${index})">↩️ Retirer</button>`
+                        }
+                        <button class="btn btn-danger btn-small" onclick="deleteReview(${index})">🗑️ Supprimer</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function approveReview(index) {
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            reviews[index].status = 'approved';
+            localStorage.setItem('aster_reviews', JSON.stringify(reviews));
+            loadReviews();
+        }
+
+        function unapproveReview(index) {
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            reviews[index].status = 'pending';
+            localStorage.setItem('aster_reviews', JSON.stringify(reviews));
+            loadReviews();
+        }
+
+        function deleteReview(index) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cet avis ?')) return;
+            
+            const reviews = JSON.parse(localStorage.getItem('aster_reviews') || '[]');
+            reviews.splice(index, 1);
+            localStorage.setItem('aster_reviews', JSON.stringify(reviews));
+            loadReviews();
+        }
+
+        // GESTION DES MESSAGES
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('aster_messages') || '[]');
+            const messagesList = document.getElementById('messagesList');
+            
+            // Mettre à jour les statistiques
+            document.getElementById('totalMessages').textContent = messages.length;
+            document.getElementById('unreadMessages').textContent = messages.filter(m => !m.read).length;
+
+            if (messages.length === 0) {
+                messagesList.innerHTML = `
+                    <div class="empty-state">
+                        <p>📭 Aucun message pour le moment</p>
+                    </div>
+                `;
+                return;
+            }
+
+            messagesList.innerHTML = messages.map((message, index) => `
+                <div class="message-item ${!message.read ? 'unread' : ''}">
+                    <div class="message-header">
+                        <div class="message-sender">
+                            <div class="message-avatar">${message.nom.charAt(0).toUpperCase()}</div>
+                            <div class="message-info">
+                                <h4>${message.nom}</h4>
+                                <a href="mailto:${message.email}" class="message-email">${message.email}</a>
+                            </div>
+                        </div>
+                        <div>
+                            ${!message.read ? '<div class="message-badge">🆕 Nouveau</div>' : ''}
+                            <div class="message-date">${message.date}</div>
+                        </div>
+                    </div>
+                    <div class="message-text">${message.message}</div>
+                    <div class="message-actions">
+                        <a href="mailto:${message.email}" class="btn btn-success btn-small">✉️ Répondre</a>
+                        ${!message.read ? 
+                            `<button class="btn btn-secondary btn-small" onclick="markAsRead(${index})">✓ Marquer lu</button>` :
+                            `<button class="btn btn-secondary btn-small" onclick="markAsUnread(${index})">↩️ Non lu</button>`
+                        }
+                        <button class="btn btn-danger btn-small" onclick="deleteMessage(${index})">🗑️ Supprimer</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function markAsRead(index) {
+            const messages = JSON.parse(localStorage.getItem('aster_messages') || '[]');
+            messages[index].read = true;
+            localStorage.setItem('aster_messages', JSON.stringify(messages));
+            loadMessages();
+        }
+
+        function markAsUnread(index) {
+            const messages = JSON.parse(localStorage.getItem('aster_messages') || '[]');
+            messages[index].read = false;
+            localStorage.setItem('aster_messages', JSON.stringify(messages));
+            loadMessages();
+        }
+
+        function deleteMessage(index) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) return;
+            
+            const messages = JSON.parse(localStorage.getItem('aster_messages') || '[]');
+            messages.splice(index, 1);
+            localStorage.setItem('aster_messages', JSON.stringify(messages));
+            loadMessages();
+        }
+
+        // GESTION DE LA GALERIE
+        document.getElementById('galleryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newItem = {
+                url: document.getElementById('imageUrl').value,
+                title: document.getElementById('imageTitle').value,
+                description: document.getElementById('imageDescription').value
+            };
+            
+            const savedGallery = localStorage.getItem('aster_gallery');
+            const gallery = savedGallery ? JSON.parse(savedGallery) : [];
+            gallery.push(newItem);
+            
+            localStorage.setItem('aster_gallery', JSON.stringify(gallery));
+            
+            this.reset();
+            showMessage('gallerySuccess');
+            loadGalleryItems();
+        });
+
+        function loadGalleryItems() {
+            const savedGallery = localStorage.getItem('aster_gallery');
+            const gallery = savedGallery ? JSON.parse(savedGallery) : [];
+            displayGalleryItems(gallery);
+        }
+
+        function displayGalleryItems(gallery) {
+            const container = document.getElementById('galleryItems');
+            
+            if (gallery.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <p>📸 Aucune image dans la galerie</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = gallery.map((item, index) => `
+                <div class="gallery-item">
+                    <img src="${item.url}" alt="${item.title}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22><rect fill=%22%23333%22 width=%22200%22 height=%22150%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%23999%22 text-anchor=%22middle%22 dy=%22.3em%22>Image non disponible</text></svg>'">
+                    <h4>${item.title}</h4>
+                    <p>${item.description}</p>
+                    <div class="gallery-actions">
+                        <button class="btn btn-secondary btn-small" onclick="editGalleryItem(${index})">✏️ Modifier</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteGalleryItem(${index})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteGalleryItem(index) {
+            if (!confirm('🗑️ Êtes-vous sûr de vouloir supprimer cette image ?')) {
+                return;
+            }
+            
+            const savedGallery = localStorage.getItem('aster_gallery');
+            const gallery = savedGallery ? JSON.parse(savedGallery) : [];
+            
+            gallery.splice(index, 1);
+            
+            localStorage.setItem('aster_gallery', JSON.stringify(gallery));
+            displayGalleryItems(gallery);
+        }
+
+        function editGalleryItem(index) {
+            const savedGallery = localStorage.getItem('aster_gallery');
+            const gallery = savedGallery ? JSON.parse(savedGallery) : [];
+            const item = gallery[index];
+            
+            const newUrl = prompt('📎 URL de l\'image:', item.url);
+            if (newUrl === null) return;
+            
+            const newTitle = prompt('📝 Titre:', item.title);
+            if (newTitle === null) return;
+            
+            const newDescription = prompt('💬 Description:', item.description);
+            if (newDescription === null) return;
+            
+            if (newUrl.trim() && newTitle.trim() && newDescription.trim()) {
+                gallery[index] = {
+                    url: newUrl.trim(),
+                    title: newTitle.trim(),
+                    description: newDescription.trim()
+                };
+                
+                localStorage.setItem('aster_gallery', JSON.stringify(gallery));
+                displayGalleryItems(gallery);
+            }
+        }
+
+        // GESTION DES COULEURS
+        function setupColorPickers() {
+            ['color1', 'color2', 'color3'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('input', (e) => {
+                    updateColorPreview(id, e.target.value);
+                    updateLivePreview();
+                });
+            });
+        }
+
+        function updateColorPreview(id, color) {
+            const num = id.replace('color', '');
+            document.getElementById(`preview${num}`).style.backgroundColor = color;
+            document.getElementById(`value${num}`).textContent = color;
+        }
+
+        function updateLivePreview() {
+            const color1 = document.getElementById('color1').value;
+            const color2 = document.getElementById('color2').value;
+            const color3 = document.getElementById('color3').value;
+
+            document.documentElement.style.setProperty('--color-primary', color1);
+            document.documentElement.style.setProperty('--color-secondary', color2);
+            document.documentElement.style.setProperty('--color-accent', color3);
+
+            const textGradient = `linear-gradient(135deg, ${color1} 0%, ${color3} 50%, ${color1} 100%)`;
+            const buttonGradient = `linear-gradient(135deg, ${color2}, ${color1})`;
+            const bgGradient = `linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 30%, #16213e 70%, #0f1419 100%)`;
+
+            document.documentElement.style.setProperty('--text-gradient', textGradient);
+            document.documentElement.style.setProperty('--button-gradient', buttonGradient);
+            document.documentElement.style.setProperty('--bg-gradient', bgGradient);
+        }
+
+        function saveColors() {
+            const colors = {
+                primary: document.getElementById('color1').value,
+                secondary: document.getElementById('color2').value,
+                accent: document.getElementById('color3').value
+            };
+
+            localStorage.setItem('aster_colors', JSON.stringify(colors));
+            showMessage('colorSuccess');
+        }
+
+        function resetColors() {
+            document.getElementById('color1').value = '#d4af37';
+            document.getElementById('color2').value = '#8a2be2';
+            document.getElementById('color3').value = '#f4e4c1';
+            
+            updateColorPreview('color1', '#d4af37');
+            updateColorPreview('color2', '#8a2be2');
+            updateColorPreview('color3', '#f4e4c1');
+            updateLivePreview();
+            
+            localStorage.removeItem('aster_colors');
+        }
+
+        // GESTION DES PRIX
+        function setupPriceInputs() {
+            ['priceStarter', 'priceFull', 'priceCustom'].forEach(id => {
+                const input = document.getElementById(id);
+                input.addEventListener('input', () => {
+                    updatePricePreview();
+                });
+            });
+        }
+
+        function updatePricePreview() {
+            document.getElementById('displayStarter').textContent = document.getElementById('priceStarter').value;
+            document.getElementById('displayFull').textContent = document.getElementById('priceFull').value;
+            document.getElementById('displayCustom').textContent = document.getElementById('priceCustom').value;
+        }
+
+        function savePrices() {
+            const prices = {
+                starter: document.getElementById('priceStarter').value,
+                full: document.getElementById('priceFull').value,
+                custom: document.getElementById('priceCustom').value
+            };
+
+            localStorage.setItem('aster_prices', JSON.stringify(prices));
+            showMessage('priceSuccess');
+        }
+
+        function resetPrices() {
+            document.getElementById('priceStarter').value = '25';
+            document.getElementById('priceFull').value = '45';
+            document.getElementById('priceCustom').value = 'Sur devis';
+            
+            updatePricePreview();
+            localStorage.removeItem('aster_prices');
+        }
+
+        // CHARGEMENT DES PARAMÈTRES
+        function loadSavedSettings() {
+            // Charger les couleurs
+            const savedColors = localStorage.getItem('aster_colors');
+            if (savedColors) {
+                const colors = JSON.parse(savedColors);
+                document.getElementById('color1').value = colors.primary;
+                document.getElementById('color2').value = colors.secondary;
+                document.getElementById('color3').value = colors.accent;
+                
+                updateColorPreview('color1', colors.primary);
+                updateColorPreview('color2', colors.secondary);
+                updateColorPreview('color3', colors.accent);
+            }
+
+            // Charger les prix
+            const savedPrices = localStorage.getItem('aster_prices');
+            if (savedPrices) {
+                const prices = JSON.parse(savedPrices);
+                document.getElementById('priceStarter').value = prices.starter;
+                document.getElementById('priceFull').value = prices.full;
+                document.getElementById('priceCustom').value = prices.custom;
+            }
+
+            updateLivePreview();
+            updatePricePreview();
+        }
+
+        // UTILITAIRES
+        function showMessage(id) {
+            const message = document.getElementById(id);
+            message.classList.add('show');
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        function exportSettings() {
+            const settings = {
+                colors: JSON.parse(localStorage.getItem('aster_colors') || '{}'),
+                prices: JSON.parse(localStorage.getItem('aster_prices') || '{}'),
+                gallery: JSON.parse(localStorage.getItem('aster_gallery') || '[]'),
+                reviews: JSON.parse(localStorage.getItem('aster_reviews') || '[]'),
+                messages: JSON.parse(localStorage.getItem('aster_messages') || '[]'),
+                timestamp: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(settings, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `aster-settings-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importSettings() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const settings = JSON.parse(event.target.result);
+                        
+                        if (settings.colors) {
+                            localStorage.setItem('aster_colors', JSON.stringify(settings.colors));
+                        }
+                        if (settings.prices) {
+                            localStorage.setItem('aster_prices', JSON.stringify(settings.prices));
+                        }
+                        if (settings.gallery) {
+                            localStorage.setItem('aster_gallery', JSON.stringify(settings.gallery));
+                        }
+                        if (settings.reviews) {
+                            localStorage.setItem('aster_reviews', JSON.stringify(settings.reviews));
+                        }
+                        if (settings.messages) {
+                            localStorage.setItem('aster_messages', JSON.stringify(settings.messages));
+                        }
+                        
+                        loadSavedSettings();
+                        loadGalleryItems();
+                        loadReviews();
+                        loadMessages();
+                        alert('✅ Paramètres importés avec succès !');
+                    } catch (error) {
+                        alert('❌ Erreur lors de l\'import des paramètres.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function clearAllData() {
+            if (!confirm('⚠️ Êtes-vous sûr de vouloir effacer TOUTES les données ? Cette action est irréversible !')) {
+                return;
+            }
+            
+            if (!confirm('🚨 DERNIÈRE CONFIRMATION : Toutes vos données (avis, messages, galerie, paramètres) seront définitivement supprimées !')) {
+                return;
+            }
+
+            localStorage.removeItem('aster_colors');
+            localStorage.removeItem('aster_prices');
+            localStorage.removeItem('aster_gallery');
+            localStorage.removeItem('aster_reviews');
+            localStorage.removeItem('aster_messages');
+            
+            alert('✅ Toutes les données ont été effacées.');
+            location.reload();
+        }
+
+        // INITIALISATION
+        window.addEventListener('DOMContentLoaded', () => {
+            setupColorPickers();
+            setupPriceInputs();
+            loadSavedSettings();
+            loadGalleryItems();
+            loadReviews();
+        });
+    </script>
+</body>
+</html>
