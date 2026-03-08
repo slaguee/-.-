@@ -21,11 +21,12 @@
         .hero::before{content:'';position:absolute;top:-60%;left:-60%;width:220%;height:220%;background:radial-gradient(circle,rgba(212,175,55,.12) 0%,rgba(138,43,226,.08) 50%,transparent 70%);animation:rotate 25s linear infinite}
         @keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         .hero-content{position:relative;z-index:1}
-        .hero h1{font-size:4.5rem;margin-bottom:25px;background:linear-gradient(135deg,#fff 0%,#d4af37 50%,#f4e4c1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fadeUp 1s ease forwards;line-height:1.1;font-weight:800}
+        .hero h1{font-size:4.5rem;margin-bottom:25px;background:linear-gradient(135deg,#fff 0%,#d4af37 50%,#f4e4c1 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;font-weight:800;animation:fadeUp 1s ease forwards}
         .hero h2{font-size:1.5rem;font-weight:400;color:#cbd5e1;margin-bottom:45px;animation:fadeUp 1s ease .2s forwards;opacity:0}
         @keyframes fadeUp{to{opacity:1;transform:translateY(0)}from{opacity:0;transform:translateY(20px)}}
-        .btn{display:inline-block;padding:18px 50px;background:linear-gradient(135deg,#8a2be2 0%,#d4af37 100%);color:white;text-decoration:none;border-radius:15px;font-weight:700;font-size:1.15rem;transition:all .4s;box-shadow:0 8px 30px rgba(138,43,226,.4);animation:fadeUp 1s ease .4s forwards;opacity:0;border:none;cursor:pointer}
+        .btn{display:inline-block;padding:18px 50px;background:linear-gradient(135deg,#8a2be2 0%,#d4af37 100%);color:white;text-decoration:none;border-radius:15px;font-weight:700;font-size:1.15rem;transition:all .4s;box-shadow:0 8px 30px rgba(138,43,226,.4);border:none;cursor:pointer}
         .btn:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 15px 45px rgba(212,175,55,.6)}
+        .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
         section{padding:100px 70px;position:relative}
         section h2{text-align:center;font-size:3rem;background:linear-gradient(135deg,#d4af37 0%,#f4e4c1 50%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:70px;font-weight:800}
         .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:40px;max-width:1200px;margin:0 auto}
@@ -33,29 +34,34 @@
         .card:hover{transform:translateY(-12px) scale(1.03);border-color:rgba(212,175,55,.4);box-shadow:0 20px 60px rgba(138,43,226,.25)}
         .card h3{font-size:1.8rem;margin-bottom:20px;color:#fff;font-weight:700}
         .card p{color:rgba(240,244,248,.85);line-height:1.7;font-size:1.05rem}
+        /* AVIS */
         .avis-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:35px;margin-bottom:70px;max-width:1400px;margin-left:auto;margin-right:auto}
         .avis-card{background:rgba(255,255,255,.03);backdrop-filter:blur(30px);border:1px solid rgba(212,175,55,.2);border-radius:24px;padding:40px;transition:all .5s;box-shadow:0 10px 40px rgba(0,0,0,.3)}
-        .avis-card:hover{transform:translateY(-12px) scale(1.03);border-color:rgba(212,175,55,.4);box-shadow:0 20px 60px rgba(138,43,226,.25)}
+        .avis-card:hover{transform:translateY(-8px);border-color:rgba(212,175,55,.4);box-shadow:0 20px 60px rgba(138,43,226,.25)}
         .avis-header{display:flex;align-items:center;gap:18px;margin-bottom:25px}
-        .avis-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#8a2be2 0%,#d4af37 100%);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.4rem;box-shadow:0 8px 25px rgba(138,43,226,.4)}
-        .avis-info h4{color:#fff;margin-bottom:6px;font-size:1.3rem;font-weight:700}
+        .avis-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#8a2be2 0%,#d4af37 100%);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.4rem;box-shadow:0 8px 25px rgba(138,43,226,.4);flex-shrink:0}
+        .avis-info h4{color:#fff;margin-bottom:6px;font-size:1.2rem;font-weight:700}
         .stars{font-size:1.1rem;letter-spacing:2px}
-        .avis-text{color:rgba(240,244,248,.85);line-height:1.8;font-style:italic;font-size:1.05rem}
+        .avis-text{color:rgba(240,244,248,.85);line-height:1.8;font-style:italic;font-size:1rem}
+        /* FORMULAIRES */
         .contact-form{max-width:700px;margin:0 auto;background:rgba(255,255,255,.03);backdrop-filter:blur(30px);border:1px solid rgba(212,175,55,.2);border-radius:24px;padding:50px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
-        .form-group{margin-bottom:30px}
-        .form-group label{display:block;margin-bottom:12px;color:#cbd5e1;font-weight:600}
-        .form-group input,.form-group textarea{width:100%;padding:16px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(212,175,55,.3);border-radius:12px;color:#f0f4f8;font-size:1rem;font-family:'Inter',sans-serif;transition:all .3s}
-        .form-group input:focus,.form-group textarea:focus{outline:none;border-color:#d4af37;box-shadow:0 0 20px rgba(212,175,55,.3);background:rgba(255,255,255,.08)}
+        .form-group{margin-bottom:28px}
+        .form-group label{display:block;margin-bottom:10px;color:#cbd5e1;font-weight:600}
+        .form-group input,.form-group textarea{width:100%;padding:15px 18px;background:rgba(255,255,255,.05);border:1px solid rgba(212,175,55,.3);border-radius:12px;color:#f0f4f8;font-size:1rem;font-family:'Inter',sans-serif;transition:all .3s}
+        .form-group input:focus,.form-group textarea:focus{outline:none;border-color:#d4af37;box-shadow:0 0 20px rgba(212,175,55,.2);background:rgba(255,255,255,.08)}
         .form-group textarea{resize:vertical;min-height:120px}
+        /* ÉTOILES */
         .star-rating{display:flex;gap:8px;font-size:2rem;margin-top:10px}
-        .star-rating .star{cursor:pointer;transition:all .2s;filter:grayscale(100%);opacity:.5}
-        .star-rating .star.active{filter:grayscale(0%);opacity:1;transform:scale(1.1)}
-        .star-rating .star:hover{transform:scale(1.2);filter:grayscale(0%)}
-        .success-message{margin-top:25px;padding:18px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);border-radius:14px;color:#6ee7b7;text-align:center;opacity:0;transform:translateY(-15px);transition:all .4s;pointer-events:none;font-weight:600}
-        .success-message.show{opacity:1;transform:translateY(0)}
+        .star-rating .star{cursor:pointer;transition:all .2s;filter:grayscale(100%);opacity:.4;user-select:none}
+        .star-rating .star.active{filter:grayscale(0%);opacity:1}
+        .star-rating .star:hover{transform:scale(1.2)}
+        /* SUCCESS */
+        .success-message{margin-top:20px;padding:16px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.4);border-radius:12px;color:#6ee7b7;text-align:center;display:none;font-weight:600}
+        .success-message.show{display:block}
+        .error-message{margin-top:20px;padding:16px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.4);border-radius:12px;color:#fca5a5;text-align:center;display:none;font-weight:600}
+        .error-message.show{display:block}
         footer{background:rgba(26,11,46,.5);backdrop-filter:blur(30px);padding:40px;text-align:center;color:#94a3b8;border-top:1px solid rgba(212,175,55,.15)}
-        footer a{color:#d4af37;text-decoration:none}
-        @media(max-width:768px){header{padding:20px 30px}.hero h1{font-size:2.5rem}section{padding:60px 30px}.cards,.avis-grid{grid-template-columns:1fr}.contact-form{padding:30px}}
+        @media(max-width:768px){header{padding:20px 25px}nav{gap:8px}nav a{padding:8px 14px;font-size:.9rem}.hero h1{font-size:2.5rem}section{padding:60px 25px}.avis-grid,.cards{grid-template-columns:1fr}.contact-form{padding:30px}}
     </style>
 </head>
 <body>
@@ -122,8 +128,9 @@
                 <input type="hidden" id="avis-rating" value="5">
             </div>
             <div class="form-group"><label>Votre avis</label><textarea id="avis-message" rows="5" placeholder="Partagez votre expérience..." required></textarea></div>
-            <button type="submit" class="btn" style="width:100%">Envoyer mon avis</button>
+            <button type="submit" class="btn" id="btnAvis" style="width:100%">Envoyer mon avis</button>
             <div class="success-message" id="avisSuccess">✅ Merci ! Votre avis sera publié après validation par notre équipe.</div>
+            <div class="error-message" id="avisError">❌ Erreur lors de l'envoi. Veuillez réessayer.</div>
         </form>
     </div>
 </section>
@@ -135,8 +142,9 @@
             <div class="form-group"><label>Votre nom</label><input type="text" id="nom" placeholder="Ex: Jean Martin" required></div>
             <div class="form-group"><label>Votre email</label><input type="email" id="email" placeholder="votre@email.com" required></div>
             <div class="form-group"><label>Votre message</label><textarea id="message" rows="6" placeholder="Décrivez votre projet..." required></textarea></div>
-            <button type="submit" class="btn" style="width:100%">Envoyer le message</button>
+            <button type="submit" class="btn" id="btnContact" style="width:100%">Envoyer le message</button>
             <div class="success-message" id="contactSuccess">✅ Message envoyé ! Nous vous répondrons rapidement !</div>
+            <div class="error-message" id="contactError">❌ Erreur lors de l'envoi. Veuillez réessayer.</div>
         </form>
     </div>
 </section>
@@ -147,144 +155,246 @@
 </footer>
 
 <script>
-const WEBHOOK_AVIS    = "1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
-const WEBHOOK_CONTACT = "1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
+// ════════════════════════════════════════════════════════════
+//  CONFIG
+// ════════════════════════════════════════════════════════════
+const WEBHOOK_AVIS    = "https://discord.com/api/webhooks/1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
+const WEBHOOK_CONTACT = "https://canary.discord.com/api/webhooks/1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
 const JSONBIN_BIN_ID  = "69a5b655d0ea881f40e7dc36";
-const JSONBIN_API_KEY = "$2a$10$1qqHM.zqS7xi5/SEUTeaeuVHOQtWAVOwtP7i6KDVfTj1IM3.pShNm/";
+const JSONBIN_KEY     = "$2a$10$1qqHM.zqS7xi5/SEUTeaeuVHOQtWAVOwtP7i6KDVfTj1IM3.pShNm/";
 
-// Essaie plusieurs endpoints Discord pour contourner les blocages CORS
-async function sendToDiscord(webhookId, payload) {
-    const endpoints = [
-        `https://discord.com/api/webhooks/${webhookId}`,
-        `https://canary.discord.com/api/webhooks/${webhookId}`,
-        `https://ptb.discord.com/api/webhooks/${webhookId}`
-    ];
-    for (const url of endpoints) {
-        try {
-            const r = await fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            if (r.ok || r.status === 204) return true;
-        } catch(e) { /* essaie le suivant */ }
-    }
-    return false;
+// ════════════════════════════════════════════════════════════
+//  ENVOI DISCORD — Méthode 1 (avis) / Méthode 2 (contact)
+// ════════════════════════════════════════════════════════════
+async function sendAvisDiscord(payload) {
+    // Méthode 1 : fetch direct discord.com ✅
+    const r = await fetch(WEBHOOK_AVIS, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+    });
+    return r.ok || r.status === 204;
 }
 
-window.addEventListener('scroll', () => {
-    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
-});
+async function sendContactDiscord(payload) {
+    // Méthode 2 : fetch canary.discord.com ✅
+    const r = await fetch(WEBHOOK_CONTACT, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload)
+    });
+    return r.ok || r.status === 204;
+}
 
-const stars = document.querySelectorAll('.star');
-const ratingInput = document.getElementById('avis-rating');
-stars.forEach(star => {
-    star.addEventListener('click', () => {
-        const rating = star.getAttribute('data-rating');
-        ratingInput.value = rating;
-        stars.forEach(s => s.classList.toggle('active', s.getAttribute('data-rating') <= rating));
+// ════════════════════════════════════════════════════════════
+//  JSONBIN — lecture / écriture
+// ════════════════════════════════════════════════════════════
+async function jsonbinGet() {
+    const res  = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+        headers: { "X-Master-Key": JSONBIN_KEY }
     });
-    star.addEventListener('mouseenter', () => {
-        const rating = star.getAttribute('data-rating');
-        stars.forEach(s => { if(s.getAttribute('data-rating') <= rating){ s.style.opacity='1'; s.style.filter='grayscale(0%)'; }});
-    });
-    star.addEventListener('mouseleave', () => {
-        const cur = ratingInput.value;
-        stars.forEach(s => { if(s.getAttribute('data-rating') > cur){ s.style.opacity=''; s.style.filter=''; }});
-    });
-});
+    const data = await res.json();
+    return (data.record && data.record.reviews) ? data.record.reviews : [];
+}
 
+async function jsonbinSave(reviews) {
+    await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
+        method:  'PUT',
+        headers: { "Content-Type": "application/json", "X-Master-Key": JSONBIN_KEY },
+        body:    JSON.stringify({ reviews })
+    });
+}
+
+// ════════════════════════════════════════════════════════════
+//  CHARGER LES AVIS APPROUVÉS
+// ════════════════════════════════════════════════════════════
 async function loadApprovedReviews() {
     try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
-            headers: { "X-Master-Key": JSONBIN_API_KEY }
-        });
-        const data = await res.json();
-        const reviews = (data.record && data.record.reviews) ? data.record.reviews : [];
-        const grid = document.getElementById('avisGrid');
-        reviews.filter(r => r.status === 'approved').forEach(review => {
-            const starsHtml = '⭐'.repeat(review.rating || 5);
-            const card = document.createElement('div');
-            card.className = 'avis-card';
-            card.innerHTML = `<div class="avis-header"><div class="avis-avatar">${review.nom.charAt(0).toUpperCase()}</div><div class="avis-info"><h4>${review.nom}</h4><div class="stars">${starsHtml}</div></div></div><p class="avis-text">"${review.message}"</p>`;
-            grid.appendChild(card);
-        });
-    } catch(e) { console.log('Avis non chargés:', e); }
+        const reviews = await jsonbinGet();
+        const grid    = document.getElementById('avisGrid');
+        reviews
+            .filter(r => r.status === 'approved')
+            .forEach(review => {
+                const card = document.createElement('div');
+                card.className = 'avis-card';
+                card.setAttribute('data-id', review.id);
+                card.innerHTML = `
+                    <div class="avis-header">
+                        <div class="avis-avatar">${esc(review.nom).charAt(0).toUpperCase()}</div>
+                        <div class="avis-info">
+                            <h4>${esc(review.nom)}</h4>
+                            <div class="stars">${'⭐'.repeat(review.rating || 5)}</div>
+                        </div>
+                    </div>
+                    <p class="avis-text">"${esc(review.message)}"</p>
+                `;
+                grid.appendChild(card);
+            });
+    } catch(e) { console.warn('Avis non chargés:', e); }
 }
 
-document.getElementById('avisForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = this.querySelector('button[type=submit]');
-    btn.disabled = true; btn.textContent = 'Envoi...';
+function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
-    const nom     = document.getElementById('avis-nom').value;
-    const email   = document.getElementById('avis-email').value;
-    const message = document.getElementById('avis-message').value;
-    const rating  = document.getElementById('avis-rating').value;
-    const reviewId = `review_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
-
-    const ok = await sendToDiscord(WEBHOOK_AVIS, {
-        embeds: [{
-            title: "⭐ Nouvel avis depuis le site web",
-            description: `"${message}"`,
-            color: 0x9B59B6,
-            fields: [
-                { name: "👤 Nom",   value: nom,                           inline: true },
-                { name: "📧 Email", value: email,                         inline: true },
-                { name: "⭐ Note",  value: '⭐'.repeat(parseInt(rating)), inline: true },
-                { name: "📅 Date",  value: new Date().toLocaleString('fr-FR'), inline: true }
-            ],
-            footer: { text: `ID: ${reviewId} | En attente de validation` },
-            timestamp: new Date().toISOString()
-        }]
+// ════════════════════════════════════════════════════════════
+//  ÉTOILES
+// ════════════════════════════════════════════════════════════
+let currentRating = 5;
+document.querySelectorAll('#starRating .star').forEach(star => {
+    star.addEventListener('click', () => {
+        currentRating = parseInt(star.getAttribute('data-rating'));
+        document.getElementById('avis-rating').value = currentRating;
+        document.querySelectorAll('#starRating .star').forEach(s =>
+            s.classList.toggle('active', parseInt(s.getAttribute('data-rating')) <= currentRating)
+        );
     });
-
-    if (ok) {
-        document.getElementById('avisSuccess').classList.add('show');
-        this.reset();
-        stars.forEach(s => s.classList.add('active'));
-        ratingInput.value = '5';
-        setTimeout(() => document.getElementById('avisSuccess').classList.remove('show'), 6000);
-    } else {
-        alert('❌ Erreur envoi. Réessaie plus tard.');
-    }
-    btn.disabled = false; btn.textContent = 'Envoyer mon avis';
+    star.addEventListener('mouseenter', () => {
+        const v = parseInt(star.getAttribute('data-rating'));
+        document.querySelectorAll('#starRating .star').forEach(s => {
+            const sv = parseInt(s.getAttribute('data-rating'));
+            s.style.filter  = sv <= v ? 'grayscale(0%)' : 'grayscale(100%)';
+            s.style.opacity = sv <= v ? '1' : '0.4';
+        });
+    });
+    star.addEventListener('mouseleave', () => {
+        document.querySelectorAll('#starRating .star').forEach(s => {
+            s.style.filter  = '';
+            s.style.opacity = '';
+        });
+    });
 });
 
+// ════════════════════════════════════════════════════════════
+//  SCROLL HEADER
+// ════════════════════════════════════════════════════════════
+window.addEventListener('scroll', () =>
+    document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50)
+);
+
+// ════════════════════════════════════════════════════════════
+//  FORMULAIRE AVIS → Discord (méthode 1) + JSONBin
+// ════════════════════════════════════════════════════════════
+document.getElementById('avisForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const btn = document.getElementById('btnAvis');
+    const ok_el  = document.getElementById('avisSuccess');
+    const err_el = document.getElementById('avisError');
+    [ok_el, err_el].forEach(el => el.classList.remove('show'));
+
+    btn.disabled    = true;
+    btn.textContent = '⏳ Envoi...';
+
+    const nom      = document.getElementById('avis-nom').value.trim();
+    const email    = document.getElementById('avis-email').value.trim();
+    const message  = document.getElementById('avis-message').value.trim();
+    const rating   = parseInt(document.getElementById('avis-rating').value);
+    const reviewId = `review_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
+    const dateStr  = new Date().toLocaleString('fr-FR');
+
+    // 1) Sauvegarder dans JSONBin en "pending"
+    try {
+        const reviews = await jsonbinGet();
+        reviews.push({ id: reviewId, nom, email, message, rating, status: 'pending', date: new Date().toISOString() });
+        await jsonbinSave(reviews);
+    } catch(err) { console.warn('JSONBin save error:', err); }
+
+    // 2) Envoyer dans Discord (méthode 1 — discord.com direct)
+    const payload = {
+        embeds: [{
+            title:       "⭐ Nouvel avis en attente de validation",
+            description: `"${message}"`,
+            color:       0x9B59B6,
+            fields: [
+                { name: "👤 Nom",    value: nom,                    inline: true  },
+                { name: "📧 Email",  value: email,                  inline: true  },
+                { name: "⭐ Note",   value: '⭐'.repeat(rating),    inline: true  },
+                { name: "📅 Date",   value: dateStr,                inline: true  },
+                { name: "🆔 ID",     value: `\`${reviewId}\``,      inline: false }
+            ],
+            footer:    { text: `ID: ${reviewId} | Utilisez les boutons ci-dessous pour valider` },
+            timestamp: new Date().toISOString()
+        }]
+    };
+
+    try {
+        const sent = await sendAvisDiscord(payload);
+        if (sent) {
+            ok_el.classList.add('show');
+            this.reset();
+            currentRating = 5;
+            document.getElementById('avis-rating').value = '5';
+            document.querySelectorAll('#starRating .star').forEach(s => s.classList.add('active'));
+            setTimeout(() => ok_el.classList.remove('show'), 7000);
+        } else {
+            err_el.classList.add('show');
+            setTimeout(() => err_el.classList.remove('show'), 5000);
+        }
+    } catch(err) {
+        err_el.classList.add('show');
+        setTimeout(() => err_el.classList.remove('show'), 5000);
+    }
+
+    btn.disabled    = false;
+    btn.textContent = 'Envoyer mon avis';
+});
+
+// ════════════════════════════════════════════════════════════
+//  FORMULAIRE CONTACT → Discord (méthode 2)
+// ════════════════════════════════════════════════════════════
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    const btn = this.querySelector('button[type=submit]');
-    btn.disabled = true; btn.textContent = 'Envoi...';
 
-    const nom     = document.getElementById('nom').value;
-    const email   = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+    const btn    = document.getElementById('btnContact');
+    const ok_el  = document.getElementById('contactSuccess');
+    const err_el = document.getElementById('contactError');
+    [ok_el, err_el].forEach(el => el.classList.remove('show'));
 
-    const ok = await sendToDiscord(WEBHOOK_CONTACT, {
+    btn.disabled    = true;
+    btn.textContent = '⏳ Envoi...';
+
+    const nom     = document.getElementById('nom').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    const payload = {
         embeds: [{
             title: "📩 Nouveau message de contact",
             color: 0xD4AF37,
             fields: [
-                { name: "👤 Nom",     value: nom,     inline: true },
-                { name: "📧 Email",   value: email,   inline: true },
+                { name: "👤 Nom",     value: nom,     inline: true  },
+                { name: "📧 Email",   value: email,   inline: true  },
                 { name: "💬 Message", value: message, inline: false },
                 { name: "📅 Date",    value: new Date().toLocaleString('fr-FR'), inline: true }
             ],
-            footer: { text: "Contact depuis le site web astermaker" },
+            footer:    { text: "Contact depuis le site web — Aster Maker" },
             timestamp: new Date().toISOString()
         }]
-    });
+    };
 
-    if (ok) {
-        document.getElementById('contactSuccess').classList.add('show');
-        this.reset();
-        setTimeout(() => document.getElementById('contactSuccess').classList.remove('show'), 5000);
-    } else {
-        alert('❌ Erreur envoi. Réessaie plus tard.');
+    try {
+        const sent = await sendContactDiscord(payload);
+        if (sent) {
+            ok_el.classList.add('show');
+            this.reset();
+            setTimeout(() => ok_el.classList.remove('show'), 6000);
+        } else {
+            err_el.classList.add('show');
+            setTimeout(() => err_el.classList.remove('show'), 5000);
+        }
+    } catch(err) {
+        err_el.classList.add('show');
+        setTimeout(() => err_el.classList.remove('show'), 5000);
     }
-    btn.disabled = false; btn.textContent = 'Envoyer le message';
+
+    btn.disabled    = false;
+    btn.textContent = 'Envoyer le message';
 });
 
+// ════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', loadApprovedReviews);
 </script>
 </body>
