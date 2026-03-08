@@ -158,33 +158,96 @@
 // ════════════════════════════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════════════════════════════
-const WEBHOOK_AVIS    = "https://discord.com/api/webhooks/1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
-const WEBHOOK_CONTACT = "https://canary.discord.com/api/webhooks/1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
-const JSONBIN_BIN_ID  = "69a5b655d0ea881f40e7dc36";
-const JSONBIN_KEY     = "$2a$10$1qqHM.zqS7xi5/SEUTeaeuVHOQtWAVOwtP7i6KDVfTj1IM3.pShNm/";
+const WH_AVIS_ID    = "1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
+const WH_CONTACT_ID = "1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
+const JSONBIN_BIN_ID = "69a5b655d0ea881f40e7dc36";
+const JSONBIN_KEY    = "$2a$10$1qqHM.zqS7xi5/SEUTeaeuVHOQtWAVOwtP7i6KDVfTj1IM3.pShNm/";
 
 // ════════════════════════════════════════════════════════════
-//  ENVOI DISCORD — Méthode 1 (avis) / Méthode 2 (contact)
+//  ENVOI DISCORD — 15 méthodes en fallback automatique
 // ════════════════════════════════════════════════════════════
-async function sendAvisDiscord(payload) {
-    // Méthode 1 : fetch direct discord.com ✅
-    const r = await fetch(WEBHOOK_AVIS, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
-    });
-    return r.ok || r.status === 204;
+async function tryMethod(url, body, extraHeaders = {}) {
+    try {
+        const r = await fetch(url, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', ...extraHeaders },
+            body:    JSON.stringify(body)
+        });
+        return r.ok || r.status === 204;
+    } catch(e) { return false; }
 }
 
-async function sendContactDiscord(payload) {
-    // Méthode 2 : fetch canary.discord.com ✅
-    const r = await fetch(WEBHOOK_CONTACT, {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify(payload)
-    });
-    return r.ok || r.status === 204;
+async function sendToDiscord(webhookId, payload) {
+    const base        = `https://discord.com/api/webhooks/${webhookId}`;
+    const baseCanary  = `https://canary.discord.com/api/webhooks/${webhookId}`;
+    const basePtb     = `https://ptb.discord.com/api/webhooks/${webhookId}`;
+    const enc         = encodeURIComponent(base);
+
+    // Liste ordonnée des méthodes à essayer
+    const methods = [
+        // 1 — discord.com direct
+        () => tryMethod(base, payload),
+        // 2 — canary.discord.com
+        () => tryMethod(baseCanary, payload),
+        // 3 — ptb.discord.com
+        () => tryMethod(basePtb, payload),
+        // 4 — corsproxy.io wrap
+        () => tryMethod(`https://corsproxy.io/?${enc}`, payload),
+        // 5 — corsproxy.io ?url=
+        () => tryMethod(`https://corsproxy.io/?url=${enc}`, payload),
+        // 6 — allorigins
+        () => tryMethod(`https://api.allorigins.win/raw?url=${enc}`, payload),
+        // 7 — thingproxy
+        () => tryMethod(`https://thingproxy.freeboard.io/fetch/${base}`, payload),
+        // 8 — cors.sh
+        () => tryMethod(`https://proxy.cors.sh/${base}`, payload, { 'x-cors-api-key': 'temp_test' }),
+        // 9 — cors-anywhere
+        () => tryMethod(`https://cors-anywhere.herokuapp.com/${base}`, payload, { 'X-Requested-With': 'XMLHttpRequest' }),
+        // 10 — XHR direct
+        () => new Promise(res => {
+            try {
+                const x = new XMLHttpRequest();
+                x.open('POST', base, true);
+                x.setRequestHeader('Content-Type', 'application/json');
+                x.onload  = () => res(x.status === 200 || x.status === 204);
+                x.onerror = () => res(false);
+                x.send(JSON.stringify(payload));
+            } catch(e) { res(false); }
+        }),
+        // 11 — XHR canary
+        () => new Promise(res => {
+            try {
+                const x = new XMLHttpRequest();
+                x.open('POST', baseCanary, true);
+                x.setRequestHeader('Content-Type', 'application/json');
+                x.onload  = () => res(x.status === 200 || x.status === 204);
+                x.onerror = () => res(false);
+                x.send(JSON.stringify(payload));
+            } catch(e) { res(false); }
+        }),
+        // 12 — no-cors (envoi aveugle — suppose succès)
+        () => fetch(base, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                .then(() => true).catch(() => false),
+        // 13 — sendBeacon
+        () => { try { return Promise.resolve(navigator.sendBeacon(base, new Blob([JSON.stringify(payload)], { type: 'application/json' }))); } catch(e) { return Promise.resolve(false); } },
+        // 14 — keepalive fetch discord
+        () => tryMethod(base, payload),
+        // 15 — keepalive fetch canary
+        () => fetch(baseCanary, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+                .then(r => r.ok || r.status === 204).catch(() => false),
+    ];
+
+    for (const method of methods) {
+        try {
+            const ok = await Promise.race([method(), new Promise(r => setTimeout(() => r(false), 5000))]);
+            if (ok) return true;
+        } catch(e) { /* essaie le suivant */ }
+    }
+    return false;
 }
+
+async function sendAvisDiscord(payload)   { return sendToDiscord(WH_AVIS_ID, payload); }
+async function sendContactDiscord(payload){ return sendToDiscord(WH_CONTACT_ID, payload); }
 
 // ════════════════════════════════════════════════════════════
 //  JSONBIN — lecture / écriture
