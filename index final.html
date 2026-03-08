@@ -90,8 +90,6 @@
 
 <section id="avis">
     <h2>Ce qu'ils en pensent</h2>
-
-    <!-- Avis par défaut (toujours visibles) -->
     <div class="avis-grid" id="avisGrid">
         <div class="avis-card">
             <div class="avis-header"><div class="avis-avatar">X</div><div class="avis-info"><h4>XowLi</h4><div class="stars">⭐⭐⭐⭐⭐</div></div></div>
@@ -107,7 +105,6 @@
         </div>
     </div>
 
-    <!-- Formulaire avis -->
     <div class="contact-form">
         <h3 style="text-align:center;margin-bottom:35px;background:linear-gradient(135deg,#d4af37,#f4e4c1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem">Laissez votre avis</h3>
         <form id="avisForm">
@@ -150,28 +147,37 @@
 </footer>
 
 <script>
-// ============================================================
-//  CONFIG — à ne pas toucher
-// ============================================================
-const DISCORD_WEBHOOK_AVIS    = "https://discord.com/api/webhooks/1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
-const DISCORD_WEBHOOK_CONTACT = "https://discord.com/api/webhooks/1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
-// ⬇️ Remplace par ton BIN ID JSONBin après création
+const WEBHOOK_AVIS    = "1440019528879964351/svz1nHZeoP62ObtO7gEHgel_YASZMGwpOlHli4WxyENBdS_ytvZY0MyOVFY6zX_JEIWI";
+const WEBHOOK_CONTACT = "1440028210048794665/GSe1p_EbLzvYsbZh_dna2UBORGNEjvNHoKzFh2yr3DtaRNcbgq4YTm1M5-Ff7j1XubrW";
 const JSONBIN_BIN_ID  = "69a5b655d0ea881f40e7dc36";
 const JSONBIN_API_KEY = "$2a$10$1qqHM.zqS7xi5/SEUTeaeuVHOQtWAVOwtP7i6KDVfTj1IM3.pShNm/";
 
-// ============================================================
-//  Scroll header
-// ============================================================
+// Essaie plusieurs endpoints Discord pour contourner les blocages CORS
+async function sendToDiscord(webhookId, payload) {
+    const endpoints = [
+        `https://discord.com/api/webhooks/${webhookId}`,
+        `https://canary.discord.com/api/webhooks/${webhookId}`,
+        `https://ptb.discord.com/api/webhooks/${webhookId}`
+    ];
+    for (const url of endpoints) {
+        try {
+            const r = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (r.ok || r.status === 204) return true;
+        } catch(e) { /* essaie le suivant */ }
+    }
+    return false;
+}
+
 window.addEventListener('scroll', () => {
     document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// ============================================================
-//  Etoiles
-// ============================================================
-const stars      = document.querySelectorAll('.star');
+const stars = document.querySelectorAll('.star');
 const ratingInput = document.getElementById('avis-rating');
-
 stars.forEach(star => {
     star.addEventListener('click', () => {
         const rating = star.getAttribute('data-rating');
@@ -188,11 +194,7 @@ stars.forEach(star => {
     });
 });
 
-// ============================================================
-//  Charger les avis approuvés depuis JSONBin
-// ============================================================
 async function loadApprovedReviews() {
-    if (JSONBIN_BIN_ID === "REMPLACE_PAR_TON_BIN_ID") return;
     try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
             headers: { "X-Master-Key": JSONBIN_API_KEY }
@@ -200,115 +202,90 @@ async function loadApprovedReviews() {
         const data = await res.json();
         const reviews = (data.record && data.record.reviews) ? data.record.reviews : [];
         const grid = document.getElementById('avisGrid');
-
         reviews.filter(r => r.status === 'approved').forEach(review => {
-            const stars = '⭐'.repeat(review.rating || 5);
-            const card  = document.createElement('div');
+            const starsHtml = '⭐'.repeat(review.rating || 5);
+            const card = document.createElement('div');
             card.className = 'avis-card';
-            card.innerHTML = `
-                <div class="avis-header">
-                    <div class="avis-avatar">${review.nom.charAt(0).toUpperCase()}</div>
-                    <div class="avis-info"><h4>${review.nom}</h4><div class="stars">${stars}</div></div>
-                </div>
-                <p class="avis-text">"${review.message}"</p>
-            `;
+            card.innerHTML = `<div class="avis-header"><div class="avis-avatar">${review.nom.charAt(0).toUpperCase()}</div><div class="avis-info"><h4>${review.nom}</h4><div class="stars">${starsHtml}</div></div></div><p class="avis-text">"${review.message}"</p>`;
             grid.appendChild(card);
         });
-    } catch(e) {
-        console.log('Impossible de charger les avis:', e);
-    }
+    } catch(e) { console.log('Avis non chargés:', e); }
 }
 
-// ============================================================
-//  Envoyer avis via webhook Discord
-// ============================================================
 document.getElementById('avisForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    const btn = this.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Envoi...';
+
     const nom     = document.getElementById('avis-nom').value;
     const email   = document.getElementById('avis-email').value;
     const message = document.getElementById('avis-message').value;
     const rating  = document.getElementById('avis-rating').value;
-    const stars_display = '⭐'.repeat(parseInt(rating));
     const reviewId = `review_${Date.now()}_${Math.random().toString(36).substr(2,9)}`;
 
-    const payload = {
+    const ok = await sendToDiscord(WEBHOOK_AVIS, {
         embeds: [{
             title: "⭐ Nouvel avis depuis le site web",
             description: `"${message}"`,
             color: 0x9B59B6,
             fields: [
-                { name: "👤 Nom",    value: nom,            inline: true },
-                { name: "📧 Email",  value: email,          inline: true },
-                { name: "⭐ Note",   value: stars_display,  inline: true },
-                { name: "📅 Date",   value: new Date().toLocaleString('fr-FR'), inline: true }
+                { name: "👤 Nom",   value: nom,                           inline: true },
+                { name: "📧 Email", value: email,                         inline: true },
+                { name: "⭐ Note",  value: '⭐'.repeat(parseInt(rating)), inline: true },
+                { name: "📅 Date",  value: new Date().toLocaleString('fr-FR'), inline: true }
             ],
             footer: { text: `ID: ${reviewId} | En attente de validation` },
             timestamp: new Date().toISOString()
         }]
-    };
+    });
 
-    try {
-        await fetch(DISCORD_WEBHOOK_AVIS, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    if (ok) {
         document.getElementById('avisSuccess').classList.add('show');
         this.reset();
         stars.forEach(s => s.classList.add('active'));
         ratingInput.value = '5';
         setTimeout(() => document.getElementById('avisSuccess').classList.remove('show'), 6000);
-    } catch(err) {
-        console.error('Erreur envoi avis:', err);
-        alert('Erreur lors de l\'envoi. Réessaie plus tard.');
+    } else {
+        alert('❌ Erreur envoi. Réessaie plus tard.');
     }
+    btn.disabled = false; btn.textContent = 'Envoyer mon avis';
 });
 
-// ============================================================
-//  Envoyer contact via webhook Discord
-// ============================================================
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+    const btn = this.querySelector('button[type=submit]');
+    btn.disabled = true; btn.textContent = 'Envoi...';
+
     const nom     = document.getElementById('nom').value;
     const email   = document.getElementById('email').value;
     const message = document.getElementById('message').value;
 
-    const payload = {
+    const ok = await sendToDiscord(WEBHOOK_CONTACT, {
         embeds: [{
             title: "📩 Nouveau message de contact",
             color: 0xD4AF37,
             fields: [
-                { name: "👤 Nom",      value: nom,     inline: true },
-                { name: "📧 Email",    value: email,   inline: true },
-                { name: "💬 Message",  value: message, inline: false },
-                { name: "📅 Date",     value: new Date().toLocaleString('fr-FR'), inline: true }
+                { name: "👤 Nom",     value: nom,     inline: true },
+                { name: "📧 Email",   value: email,   inline: true },
+                { name: "💬 Message", value: message, inline: false },
+                { name: "📅 Date",    value: new Date().toLocaleString('fr-FR'), inline: true }
             ],
             footer: { text: "Contact depuis le site web astermaker" },
             timestamp: new Date().toISOString()
         }]
-    };
+    });
 
-    try {
-        await fetch(DISCORD_WEBHOOK_CONTACT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+    if (ok) {
         document.getElementById('contactSuccess').classList.add('show');
         this.reset();
         setTimeout(() => document.getElementById('contactSuccess').classList.remove('show'), 5000);
-    } catch(err) {
-        console.error('Erreur envoi contact:', err);
-        alert('Erreur lors de l\'envoi. Réessaie plus tard.');
+    } else {
+        alert('❌ Erreur envoi. Réessaie plus tard.');
     }
+    btn.disabled = false; btn.textContent = 'Envoyer le message';
 });
 
-// ============================================================
-//  Init
-// ============================================================
 window.addEventListener('DOMContentLoaded', loadApprovedReviews);
 </script>
 </body>
 </html>
-
-
