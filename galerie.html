@@ -430,6 +430,20 @@
         .image-box:nth-child(5) { animation-delay: 0.5s; }
         .image-box:nth-child(6) { animation-delay: 0.6s; }
         .image-box:nth-child(7) { animation-delay: 0.7s; }
+        .image-box:nth-child(8) { animation-delay: 0.8s; }
+        .image-box:nth-child(9) { animation-delay: 0.9s; }
+
+        /* Video box */
+        .image-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .image-box:hover video {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -509,6 +523,26 @@
             </div>
         </div>
 
+        <!-- IMAGE 8 -->
+        <div class="image-box fade-in" data-index="7">
+            <img src="Untitled1137_20260316075902.jpg" alt="Bannière Yuro">
+            <div class="image-overlay">
+                <h3>Bannière YouTube</h3>
+                <p>Création visuelle pour Yuro</p>
+            </div>
+        </div>
+
+        <!-- VIDEO 9 -->
+        <div class="image-box fade-in" data-index="8">
+            <video autoplay muted loop playsinline>
+                <source src="finale.mp4" type="video/mp4">
+            </video>
+            <div class="image-overlay">
+                <h3>Vidéo Créative</h3>
+                <p>Création visuelle pour Yuro</p>
+            </div>
+        </div>
+
     </section>
 
 
@@ -524,10 +558,10 @@
 
     <footer>
         <p>© 2025 ASTER MAKER • Créé avec passion pour les créateurs</p>
-        <p>📧 Contact : <a href="mailto:aster.maker@outlook.fr">aster.maker@outlook.fr</a></p>
+        <p>📧 Contact : <a href="/cdn-cgi/l/email-protection#c1a0b2b5a4b3efaca0aaa4b381aeb4b5adaeaeaaefa7b3"><span class="__cf_email__" data-cfemail="d1b0a2a5b4a3ffbcb0bab4a391bea4a5bdbebebaffb7a3">[email&#160;protected]</span></a></p>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Header scroll effect
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
@@ -652,16 +686,4 @@
             });
         }, observerOptions);
 
-        imageBoxes.forEach(box => {
-            observer.observe(box);
-        });
-
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'aster_gallery') {
-                loadGallery();
-            }
-        });
-    </script>
-
-</body>
-</html>
+        imageBoxes.forEac
