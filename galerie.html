@@ -429,6 +429,7 @@
         .image-box:nth-child(4) { animation-delay: 0.4s; }
         .image-box:nth-child(5) { animation-delay: 0.5s; }
         .image-box:nth-child(6) { animation-delay: 0.6s; }
+        .image-box:nth-child(7) { animation-delay: 0.7s; }
     </style>
 </head>
 <body>
@@ -499,6 +500,15 @@
             </div>
         </div>
 
+        <!-- IMAGE 7 -->
+        <div class="image-box fade-in" data-index="6">
+            <img src="Minia_Aster_Cache-Cache_50YTB_Png.png" alt="50 Youtubeurs Cache-Cache">
+            <div class="image-overlay">
+                <h3>Miniature YouTube</h3>
+                <p>50 Youtubeurs s'affrontent en Cache-Cache</p>
+            </div>
+        </div>
+
     </section>
 
 
@@ -540,10 +550,8 @@
                 const gallery = JSON.parse(savedGallery);
                 const galleryContainer = document.querySelector('.gallery');
                 
-                // Vider la galerie actuelle
                 galleryContainer.innerHTML = '';
                 
-                // Ajouter les images
                 gallery.forEach((item, index) => {
                     const imageBox = document.createElement('div');
                     imageBox.className = 'image-box fade-in';
@@ -561,7 +569,6 @@
                     galleryContainer.appendChild(imageBox);
                 });
                 
-                // Réinitialiser la lightbox avec les nouvelles images
                 initLightbox();
             }
         }
@@ -577,7 +584,6 @@
         let currentIndex = 0;
         const images = Array.from(imageBoxes).map(box => box.querySelector('img').src);
 
-        // Ouvrir la lightbox
         imageBoxes.forEach((box, index) => {
             box.addEventListener('click', () => {
                 currentIndex = index;
@@ -587,7 +593,6 @@
             });
         });
 
-        // Fermer la lightbox
         closeBtn.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) {
@@ -600,7 +605,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Navigation
         prevBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             currentIndex = (currentIndex - 1 + images.length) % images.length;
@@ -613,7 +617,6 @@
             showImage(currentIndex);
         });
 
-        // Navigation au clavier
         document.addEventListener('keydown', (e) => {
             if (!lightbox.classList.contains('active')) return;
             
@@ -630,7 +633,6 @@
             }, 150);
         }
 
-        // Animation au scroll
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -654,7 +656,6 @@
             observer.observe(box);
         });
 
-        // Écouter les changements dans le localStorage
         window.addEventListener('storage', function(e) {
             if (e.key === 'aster_gallery') {
                 loadGallery();
